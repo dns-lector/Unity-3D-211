@@ -33,15 +33,6 @@ public class CharacterScript : MonoBehaviour
                 r * moveValue.x +
                 f * moveValue.y
             ));
-        /*
-        Vector2 axisValue = new Vector2(
-            Input.GetAxis("Horizontal"),
-            Input.GetAxis("Vertical"));
-        if (moveValue != Vector2.zero)
-        {
-            Debug.Log(moveValue);
-            Debug.Log(axisValue);
-            Debug.Log("---");
-        }*/
+        
     }
 }

@@ -44,6 +44,7 @@ public class CameraScript : MonoBehaviour
                     if (rr <= minFpvDistance)
                     {
                         r *= 0.01f;
+                        GameState.isFpv = true;
                     }
                     else
                     {
@@ -55,6 +56,7 @@ public class CameraScript : MonoBehaviour
                     if (wheel.y < 0)
                     {
                         r *= 100f;
+                        GameState.isFpv = false;
                     }
                 }
             }
