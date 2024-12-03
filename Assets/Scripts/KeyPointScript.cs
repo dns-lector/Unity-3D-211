@@ -25,4 +25,13 @@ public class KeyPointScript : MonoBehaviour
             part = leftTime / timeout;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            GameState.TriggerGameEvent("KeyPoint", keyPointName);
+            Destroy(gameObject);
+        }
+    }
 }

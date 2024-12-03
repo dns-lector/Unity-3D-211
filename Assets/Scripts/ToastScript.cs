@@ -25,12 +25,18 @@ public class ToastScript : MonoBehaviour
         });
     }
 
+    private void OnGameEvent(string eventName, object data)
+    {
+        ShowToast(eventName + " " + data);
+    }
+
     void Start()
     {
         instance = this;
         content = transform.Find("Content").gameObject;
         toastTMP = transform.Find("Content/ToastTMP").GetComponent<TMPro.TextMeshProUGUI>();
         content.SetActive(false);
+        GameState.Subscribe(OnGameEvent, "KeyPoint");
     }
 
     void Update()
@@ -54,6 +60,11 @@ public class ToastScript : MonoBehaviour
                 content.SetActive(true);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameState.Unsubscribe(OnGameEvent, "KeyPoint");
     }
 
     private class ToastMessage
