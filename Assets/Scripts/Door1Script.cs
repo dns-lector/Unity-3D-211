@@ -1,15 +1,35 @@
+using System.Linq;
 using UnityEngine;
 
 public class Door1Script : MonoBehaviour
 {
+    [SerializeField]
+    private string requiredKey = "1";
+    private float openingTime = 3.0f;
+    private float timeout = 0f;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.name == "Character")
+        if(collision.gameObject.CompareTag("Player"))
         {
-            ToastScript.ShowToast(
-                "Для відкривання двері вам необхідно знайти ключ № 1"
-                /*+ Random.value*/ );
+            if(GameState.collectedItems.ContainsKey("Key" + requiredKey))
+            {
+                GameState.TriggerGameEvent("Door1",
+                    new GameEvents.MessageEvent 
+                    {
+                        message = "Двері відчиняються",
+                        data = requiredKey
+                    });
+                timeout = openingTime;
+            }
+            else
+            {
+                GameState.TriggerGameEvent("Door1", new GameEvents.MessageEvent
+                {
+                    message = "Для відкривання двері вам необхідно знайти ключ " + requiredKey,
+                    data = requiredKey
+                });
+            }            
         }
     }
     void Start()
@@ -19,6 +39,10 @@ public class Door1Script : MonoBehaviour
 
     void Update()
     {
-        
+        if (timeout > 0f)
+        {
+            transform.Translate(Time.deltaTime / openingTime, 0, 0);
+            timeout -= Time.deltaTime;
+        }
     }
 }

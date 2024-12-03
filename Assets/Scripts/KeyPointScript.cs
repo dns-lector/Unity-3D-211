@@ -30,7 +30,12 @@ public class KeyPointScript : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            GameState.TriggerGameEvent("KeyPoint", keyPointName);
+            GameState.collectedItems.Add("Key" + keyPointName, part);
+            GameState.TriggerGameEvent("KeyPoint", new GameEvents.MessageEvent
+            {
+                message = "Знайдено ключ " + keyPointName,
+                data = part
+            });
             Destroy(gameObject);
         }
     }
