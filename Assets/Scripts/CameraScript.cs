@@ -7,8 +7,8 @@ public class CameraScript : MonoBehaviour
     private InputAction lookAction;
     private Vector3 cameraAngles, cameraAngles0;
     private Vector3 r;
-    private float sensitivityH = 5.0f;
-    private float sensitivityV = -3.0f;
+    //private float sensitivityH = 5.0f;
+    //private float sensitivityV = -3.0f;
     private float minFpvDistance = 0.9f;
     private float maxFpvDistance = 9.0f;
     private bool isPos3;
@@ -66,8 +66,8 @@ public class CameraScript : MonoBehaviour
             Vector2 lookValue = lookAction.ReadValue<Vector2>();
             if (lookValue != Vector2.zero)
             {
-                cameraAngles.x += lookValue.y * Time.deltaTime * sensitivityV;
-                cameraAngles.y += lookValue.x * Time.deltaTime * sensitivityH;
+                cameraAngles.x += lookValue.y * Time.deltaTime * GameState.lookSensitivityY;
+                cameraAngles.y += lookValue.x * Time.deltaTime * GameState.lookSensitivityX;
                 this.transform.eulerAngles = cameraAngles;
             }
             this.transform.position = character.position +

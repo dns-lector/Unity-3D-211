@@ -7,6 +7,8 @@ public class FlashLightScript : MonoBehaviour
     private float charge;
     private float worktime = 50.0f;
 
+    public float chargeLevel => Mathf.Clamp01(charge);
+
     void Start()
     {
         parentTransform = transform.parent;
@@ -16,6 +18,7 @@ public class FlashLightScript : MonoBehaviour
         }
         flashLight = GetComponent<Light>();
         charge = 1.0f;
+        GameState.Subscribe(OnBatteryEvent, "Battery");
     }
 
     void Update()
@@ -24,7 +27,7 @@ public class FlashLightScript : MonoBehaviour
 
         if(charge > 0 && !GameState.isDay)
         {
-            flashLight.intensity = charge;
+            flashLight.intensity = chargeLevel;
             charge -= Time.deltaTime / worktime;
         }
 
@@ -39,6 +42,18 @@ public class FlashLightScript : MonoBehaviour
             if (f == Vector3.zero) f = Camera.main.transform.up;
             transform.forward = f.normalized;
         }
+    }
+
+    private void OnBatteryEvent(string eventName, object data)
+    {
+        if (data is GameEvents.MessageEvent e)
+        {
+            charge += (float)e.data;
+        }
+    }
+    private void OnDestroy()
+    {
+        GameState.Unsubscribe(OnBatteryEvent, "Battery");
     }
 }
 /* Д.З. До задач об'єкта "батарейка"

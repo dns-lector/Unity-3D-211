@@ -14,6 +14,7 @@ public class KeyPointScript : MonoBehaviour
     {
         leftTime = timeout;
         part = 1.0f;
+        // Application.targetFrameRate = 30;
     }
 
     void Update()
